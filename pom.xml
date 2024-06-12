@@ -40,6 +40,60 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
+
+      <plugin>
+        <groupId>io.github.git-commit-id</groupId>
+        <artifactId>git-commit-id-maven-plugin</artifactId>
+        <version>${git-commit-id-maven-plugin.version}</version>
+        <configuration>
+          <prefix>git</prefix>
+          <dateFormat>yyyy-MM-dd'T'HH:mm:ssXXX</dateFormat>
+          <dateFormatTimeZone>UTC</dateFormatTimeZone>
+          <dotGitDirectory>${maven.multiModuleProjectDirectory}/.git</dotGitDirectory>
+          <gitDescribe>
+            <skip>false</skip>
+            <always>true</always>
+          </gitDescribe>
+          <injectAllReactorProjects>true</injectAllReactorProjects>
+
+          <!-- Clear defaults from spring-boot-starter-parent -->
+          <verbose>true</verbose>
+          <generateGitPropertiesFile>false</generateGitPropertiesFile>
+          <generateGitPropertiesFilename>NONE</generateGitPropertiesFilename>
+        </configuration>
+        <executions>
+          <!-- Disable default execution from spring-boot-starter-parent -->
+          <execution>
+            <id>default</id>
+            <phase/>
+          </execution>
+
+          <!-- Collect git information once for multi-module projects to speed up builds -->
+          <execution>
+            <id>git-info-collect</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+            <configuration>
+              <skipPoms>false</skipPoms>
+              <runOnlyOnce>true</runOnlyOnce>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>git-info-properties</id>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+            <configuration>
+              <format>properties</format>
+              <generateGitPropertiesFile>true</generateGitPropertiesFile>
+              <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>
