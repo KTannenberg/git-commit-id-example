@@ -1,0 +1,13 @@
+<configuration xmlns="http://jgitver.github.io/maven/configuration/1.0.0"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://jgitver.github.io/maven/configuration/1.0.0 https://jgitver.github.io/maven/configuration/jgitver-configuration-v1_0_0.xsd ">
+  <useDirty>true</useDirty>
+
+  <!-- see https://github.com/jgitver/jgitver-maven-plugin/issues/33, #90 and #91 -->
+  <exclusions>
+    <exclusion>.repository</exclusion>
+    <exclusion>.maven</exclusion>
+    <exclusion>.m2</exclusion>
+    <exclusion>.ci</exclusion>
+  </exclusions>
+</configuration>
